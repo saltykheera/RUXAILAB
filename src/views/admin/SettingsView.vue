@@ -37,7 +37,7 @@
     <v-dialog v-model="tempDialog" max-width="80%">
       <v-card>
         <p class="dialog-title ma-2 pa-2">
-          Create Template
+          {{ $t('pages.settings.createTemplate') }}
         </p>
         <v-divider />
         <v-form ref="tempform" class="px-5">
@@ -46,7 +46,7 @@
               <v-text-field
                 v-model="template.templateTitle"
                 autofocus
-                label="Title"
+                :label="$t('common.title')"
                 :rules="titleRequired"
                 counter="100"
                 outlined
@@ -56,7 +56,7 @@
 
               <v-textarea
                 v-model="template.templateDescription"
-                label="Description"
+                :label="$t('common.description')"
                 outlined
                 dense
                 @input="$emit('change')"
@@ -64,7 +64,7 @@
 
               <v-checkbox
                 v-model="template.isTemplatePublic"
-                label="Make template public to all users"
+                :label="$t('pages.settings.public')"
                 color="#F9A826"
               />
             </v-col>
@@ -209,7 +209,7 @@ export default {
     tempDialog: false,
     titleRequired: [
       (v) => !!v || i18n.t('errors.fieldRequired'),
-      (v) => v.length <= 100 || 'Max 100 characters',
+      (v) => !!!v || v.length < 100 || i18n.t('errors.maxCharacters'),
     ],
     showSettings: false,
     publicTemplate: true,
@@ -234,18 +234,11 @@ export default {
       return this.$store.getters.cooperators || {}
     },
     dialogText() {
-      if (this.test)
-        return `Are you sure you want to delete your test "${this.test.testTitle}"? This action can't be undone.`
-
-      return 'Are you sure you want to delete this test? This action can\'t be undone' //in case object isnt loaded
+      if (this.test) return `${ i18n.t('pages.settings.certainty') } "${this.test.testTitle}"? ${ i18n.t("pages.settings.undone")}`
+      return `${ i18n.t('pages.settings.certainty') }? ${ i18n.t("pages.settings.undone")}` //in case object isnt loaded
     },
     hasTemplate() {
-      if (this.object)
-        if ('template' in this.object) {
-          if (this.object.template !== null) return true
-        }
-
-      return false
+      return this.object && 'template' in this.object && this.object.template !== null
     },
     myObject() {
       if (this.user) {
@@ -399,6 +392,7 @@ export default {
 
       this.$router.push({ name: 'TestList' })
     },
+
     async createTemplate() {
       const tempHeader = new TemplateHeader({
         creationDate: Date.now(),

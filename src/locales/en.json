@@ -82,7 +82,8 @@
     "passwordRequired": "Password is required",
     "passwordValidate": "Password must be at least 6 characters",
     "differentPasswords": "Different passwords",
-    "fieldRequired": "Field required"
+    "fieldRequired": "Field required",
+    "maxCharacters": "Max 100 characters"
   },
   "Introduction": {
     "title": "UX Remote LAB",
@@ -215,8 +216,11 @@
     "settings": {
       "title": "Settings",
       "currentTest": "Current test",
-      "createTemplate": "CREATE TEMPLATE",
-      "deleteTest": "DELETE TEST"
+      "createTemplate": "Create Template",
+      "deleteTest": "DELETE TEST",
+      "public": "Make template public to all users",
+      "certainty": "Are you sure you want to delete your test",
+      "undone": "This action can't be undone."
     }
   },
   "alerts": {
@@ -246,7 +250,8 @@
     "stay": "Stay",
     "leave": "Leave",
     "help": "Help",
-    "delete": "Delete"
+    "delete": "Delete",
+    "edit": "Edit"
   },
   "switches": {
     "noAnswer": "No answer",

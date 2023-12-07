@@ -82,7 +82,8 @@
     "passwordRequired": "Se requiere contraseña",
     "passwordValidate": "La contraseña debe tener al menos 6 caracteres",
     "differentPasswords": "Diferentes contraseñas",
-    "fieldRequired": "Campo requerido"
+    "fieldRequired": "Campo requerido",
+    "maxCharacters": "Max 100 caracteres"
   },
   "Introduction": {
     "title": "UX LAB Remoto",
@@ -210,13 +211,16 @@
       "templateInfo": "Información de plantilla",
       "deleteTemplate": "Eliminar plantilla",
       "noDescription": "La plantilla no tiene descripción.",
-      "public": "Hacer la prueba pública para todos los usuarios (solo lectura)"
+      "public": "Hacer la prueba pública para todos los usuarios (solo lectura)",
+      "certainty": "Estás segura de que quieres eliminar tu prueba"
     },
     "settings": {
       "title": "Ajustes",
       "currentTest": "Prueba actual",
-      "createTemplate": "CREAR PLANTILLA",
-      "deleteTest": "ELIMINAR PRUEBA"
+      "createTemplate": "Crear Plantilla",
+      "deleteTest": "ELIMINAR PRUEBA",
+      "public": "Hacer pública la template para todos los usuarios",
+      "undone": "Esta acción no se puede deshacer."
     }
   },
   "alerts": {
@@ -246,7 +250,8 @@
     "leave": "Dejar",
     "stay": "Quédate",
     "help": "Ayuda",
-    "delete": "Borrar"
+    "delete": "Borrar",
+    "edit": "Editar"
   },
   "switches": {
     "noAnswer": "Sin respuesta",

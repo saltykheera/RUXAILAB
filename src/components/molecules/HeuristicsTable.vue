@@ -140,7 +140,9 @@
         <v-card-title class="subtitleView">
           {{ $t('HeuristicsTable.titles.currentHeuristics') }}
         </v-card-title>
+
         <v-divider />
+        
         <v-row v-if="heuristics.length" class="ma-0 pa-0">
           <!--Heuristics List-->
           <v-col class="ma-0 pa-0" cols="4">
@@ -166,7 +168,9 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+              
               <v-divider />
+
               <v-subheader>
                 <v-text-field
                   v-model="search"
@@ -185,6 +189,7 @@
                   </template>'
                 </v-text-field>
               </v-subheader>
+              
               <v-divider />
               <v-list dense height="470px" class="list-scroll">
                 <v-list-item-group v-model="itemSelect" color="#fca326">
@@ -537,16 +542,15 @@
 </template>
 
 <script>
-import AddDescBtn from '@/components/atoms/AddDescBtn'
-
 import VClamp from 'vue-clamp'
-import i18n from '@/i18n'
+import AddDescBtn from '@/components/atoms/AddDescBtn'
 
 export default {
   components: {
     AddDescBtn,
     VClamp,
   },
+
   data: () => ({
     menuHeuristics: false,
     menuQuestions: false,
@@ -571,18 +575,18 @@ export default {
     dialogHeuris: false,
     dialogQuestion: false,
     editIndex: -1,
-    nameRequired: [(v) => !!v || i18n.t('HeuristicsTable.validation.nameRequired')],
-    questionRequired: [(v) => !!v || i18n.t('HeuristicsTable.validation.questionRequired')],
+    nameRequired: [(v) => !!v || $t('HeuristicsTable.validation.nameRequired')],
+    questionRequired: [(v) => !!v || $t('HeuristicsTable.validation.questionRequired')],
     hoveredItem: null,
   }),
+
   computed: {
     csvHeuristics() {
       return this.$store.state.Tests.Test.testStructure
     },
+
     heuristics() {
-      return this.$store.state.Tests.Test.testStructure
-        ? this.$store.state.Tests.Test.testStructure
-        : []
+      return this.$store.state.Tests.Test.testStructure ? this.$store.state.Tests.Test.testStructure : []
     },
 
     arrayQuestions() {
@@ -593,25 +597,22 @@ export default {
       })
       return []
     },
-    totalQuestions() {
-      let result = 0
-      this.heuristics.forEach((h) => {
-        result += h.total
-      })
-      return result
-    },
-    testAnswerDocLength() {
-      const heuristicAnswers = this.$store.getters.testAnswerDocument
-        .heuristicAnswers
-      const heuristicAnswersCount = Object.keys(heuristicAnswers).length
 
-      return heuristicAnswersCount
+    totalQuestions() {
+      return this.heuristics.reduce((acc, h) => acc + h, 0)
+    },
+
+    testAnswerDocLength() {
+      const heuristicAnswers = this.$store.getters.testAnswerDocument.heuristicAnswers
+      return Object.keys(heuristicAnswers).length
     },
   },
+
   watch: {
     search() {
       this.updateFilteredHeuristics()
     },
+
     dialogHeuris() {
       if (!this.dialogHeuris && this.heuristics.length > 0 && !this.itemEdit) {
         this.heuristicForm = {
@@ -637,10 +638,9 @@ export default {
       }
       this.updateFilteredHeuristics()
     },
-    itemSelect() {
-      if (this.itemSelect !== null)
-      this.questionSelect = null
 
+    itemSelect() {
+      if (this.itemSelect !== null) this.questionSelect = null
       else this.itemSelect = null
     },
 
@@ -661,9 +661,11 @@ export default {
       }
     },
   },
+
   mounted() {
     this.updateFilteredHeuristics()
   },
+
   async created() {
     await this.$store.dispatch('getTest', { id: this.$route.params.id })
     if (this.heuristics.length) {
@@ -695,6 +697,7 @@ export default {
     }
     this.heuristicForm.total = this.heuristicForm.questions.length
   },
+
   methods: {
     moveItemUp(index) {
       if (index > 0) {
@@ -714,6 +717,7 @@ export default {
         itemAbove.id = index
       }
     },
+
     moveItemDown(index) {
       if (index < this.filteredHeuristics.length - 1) {
         const itemToMove = this.filteredHeuristics[index]
@@ -732,6 +736,7 @@ export default {
         itemBelow.id = index
       }
     },
+
     updateFilteredHeuristics() {
       if (this.search === '') {
         this.searchBar = false
@@ -759,9 +764,10 @@ export default {
         })
       }
     },
+
     deleteHeuristic(item) {
       const config = confirm(
-        `${i18n.t('alerts.deleteHeuristic')} ${this.heuristics[item].title}?`,
+        `${$t('alerts.deleteHeuristic')} ${this.heuristics[item].title}?`,
       )
 
       if (config) {
@@ -772,6 +778,7 @@ export default {
       this.menuQuestions = false
       this.menuHeuristics = false
     },
+    
     deleteQuestion(item) {
       if (this.heuristics[this.itemSelect].questions.length > 1) {
         const config = confirm(
@@ -795,6 +802,7 @@ export default {
       this.menuQuestions = false
       this.menuHeuristics = false
     },
+
     editHeuris(item) {
       this.itemEdit = {
         title: 'Edit Heuristic',
@@ -804,6 +812,7 @@ export default {
       }
       this.dialogEdit = true
     },
+    
     editQuestions(item) {
       this.itemEdit = {
         title: 'Edit Question',
@@ -812,12 +821,14 @@ export default {
       }
       this.dialogEdit = true
     },
+
     editDescription(desc) {
       const ind = this.heuristics[this.itemSelect].questions[
         this.questionSelect
       ].descriptions.indexOf(desc)
       this.$refs.descBtn.editSetup(ind)
     },
+
     setupQuestion() {
       this.newQuestion = {
         id:
@@ -829,6 +840,7 @@ export default {
       }
       this.dialogQuestion = true
     },
+
     deleteItem(item) {
       this.heuristics[this.itemSelect].questions[
         this.questionSelect
@@ -839,6 +851,7 @@ export default {
         1,
       )
     },
+
     addHeuris() {
       if (this.$refs.formHeuris.validate()) {
         this.dialogHeuris = false
@@ -853,6 +866,7 @@ export default {
         //this.$emit("change");
       }
     },
+
     closeDialog(dialogName) {
       this[dialogName] = false
 
@@ -866,33 +880,28 @@ export default {
         this.newQuestion = null
       }
     },
+    
     addQuestion() {
-      if (this.$refs.formQuestion.validate()) {
-        this.dialogQuestion = false
+      if (!this.$refs.formQuestion.validate()) return
+      this.dialogQuestion = false
 
-        this.heuristics[this.itemSelect].questions.push(this.newQuestion)
-        this.newQuestion = null
+      this.heuristics[this.itemSelect].questions.push(this.newQuestion)
+      this.newQuestion = null
 
-        this.heuristics[this.itemSelect].total = this.heuristics[
-          this.itemSelect
-        ].questions.length
+      this.heuristics[this.itemSelect].total = this.heuristics[
+        this.itemSelect
+      ].questions.length
 
-        this.$refs.formQuestion.resetValidation()
-        // this.$emit("change");
-      }
+      this.$refs.formQuestion.resetValidation()
+      // this.$emit("change");
     },
-    validateEdit() {
-      if (this.$refs.formEdit.validate()) {
-        this.dialogEdit = false
 
-        if (this.itemEdit.title === 'Edit Heuristic') {
-          this.heuristics[this.itemSelect].title = this.itemEdit.titleEdit
-        } else {
-          this.heuristics[this.itemSelect].questions[
-            this.questionSelect
-          ].title = this.itemEdit.titleEdit
-        }
-      }
+    validateEdit() {
+      if (!this.$refs.formEdit.validate()) return
+      this.dialogEdit = false
+
+      if (this.itemEdit.title === 'Edit Heuristic') this.heuristics[this.itemSelect].title = this.itemEdit.titleEdit
+      else this.heuristics[this.itemSelect].questions[this.questionSelect].title = this.itemEdit.titleEdit
     },
   },
 }
