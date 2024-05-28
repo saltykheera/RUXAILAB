@@ -362,7 +362,7 @@
 
         <v-col
           ref="rightView"
-          :class="{ mini: !mini }"
+          :class="{ mini: !mini, 'dark-mode': $vuetify.theme.dark }"
           class="backgroundTest pa-0 ma-0 right-view"
         >
           <!-- Heuristics -->
@@ -371,7 +371,12 @@
             :title="test.testStructure[heurisIndex].title"
           >
             <div slot="content" class="ma-0 pa-0">
-              <v-card-title class="subtitleView">
+              <v-card-title
+                :class="{
+                  subtitleView: !$vuetify.theme.dark,
+                  'white--text': $vuetify.theme.dark,
+                }"
+              >
                 {{ test.testStructure[heurisIndex].title }}
               </v-card-title>
               <v-divider class="mb-5" />
@@ -384,7 +389,12 @@
                 <v-col cols="10">
                   <v-row class="questions">
                     <v-col cols="11">
-                      <p class="subtitleView">
+                      <p
+                        :class="{
+                          subtitleView: !$vuetify.theme.dark,
+                          'white--text': $vuetify.theme.dark,
+                        }"
+                      >
                         {{ i + 1 }}) {{ question.title }}
                       </p>
                     </v-col>
@@ -675,6 +685,10 @@ export default {
 }
 </script>
 <style scoped>
+.dark-mode .subtitleView {
+  color: white;
+}
+
 body {
   overflow-y: 100vh; /* Adiciona uma barra de rolagem vertical quando necessário */
 }
@@ -686,9 +700,18 @@ body {
   overflow: hidden;
 }
 .backgroundTest {
-  background-color: #e8eaf2;
+  /* background-color: #e8eaf2; */
   height: 94%;
   overflow: scroll;
+}
+
+/* Dark mode styles */
+.dark-mode .backgroundTest {
+  background-color: #1e1e1e; /* Adjust as needed */
+}
+
+.dark-mode .backgroundTest p {
+  color: white; /* Set text color to white in dark mode */
 }
 .background:before {
   content: '';

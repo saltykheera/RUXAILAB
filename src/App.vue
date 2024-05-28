@@ -65,4 +65,22 @@ export default {
 .ProseMirror {
   height: 100%;
 }
+/* Ensure no conflicting styles for dark mode */
+body {
+  transition: background-color 0.3s ease;
+}
+
+.v-tab--active .v-tab__content {
+  color: var(--v-theme-activeTab) !important;
+}
+
+/* For better compatibility, add CSS variable definitions */
+:root {
+  --v-theme-activeTab: #f2a426; /* Default (light theme) */
+}
+
+/* Apply dark theme active tab color when dark mode is enabled */
+body.dark-mode {
+  --v-theme-activeTab: #f2a426;
+}
 </style>

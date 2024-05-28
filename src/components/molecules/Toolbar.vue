@@ -12,7 +12,12 @@
     <v-icon left class="hidden-sm-and-down" @click="goTo('/testslist')">
       mdi-alpha-r-circle
     </v-icon>
-
+    <v-switch
+      v-model="isDark"
+      :label="`${isDark ? '🌞' : '🌙'}`"
+      class="pt-6 pl-2 pr-3  "
+      @change="toggleDarkMode"
+    />
     <v-navigation-drawer
       v-if="user"
       v-model="drawer"
@@ -224,6 +229,7 @@ export default {
     menu: false,
     item: 0,
     isManager: false,
+    isDark: localStorage.getItem('darkMode') === 'true',
   }),
   computed: {
     user() {
@@ -322,6 +328,13 @@ export default {
         }
       },
     },
+    isDark(val) {
+      localStorage.setItem('darkMode', val)
+      this.$vuetify.theme.dark = val
+    },
+  },
+  mounted() {
+    this.$vuetify.theme.dark = this.isDark
   },
   methods: {
     goTo(route) {
@@ -341,6 +354,12 @@ export default {
           .catch(() => {})
       })
     },
+  },
+  toggleDarkMode() {
+    this.isDark = !this.isDark
+  },
+  setBodyBackground(isDark) {
+    document.body.style.backgroundColor = isDark ? '#121212' : '#FFFFFF'
   },
 }
 </script>
